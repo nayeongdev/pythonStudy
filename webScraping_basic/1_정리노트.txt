@@ -1,0 +1,45 @@
+웹 크롤링은 웹 페이지 내에서 허용된 링크를 계속해서 탐색하고, 
+웹 스크래핑은 데이터 추출을 하려는 대상이 명확하여 특정 웹 사이트만 추적한다.
+즉, 웹 크롤링은 기존의 복사본을 만들고, 웹 스크래핑은 분석을 위한 특정 데이터를 추출하거나 새로운 것을 만든다.
+
+
+
+XPath (XML Path Language) :XML 문서의 어떤 경로에 접근하기 위해 사용된다. 
+XML상에서 특정 부분이 어떤 요소와 속성을 포함하고 있고 그 위치가 어떻게 되는지 파악할 때 주로 사용한다.
+
+F12 -> 가져오고싶은 태그 코드 우클릭 -> copy -> copyXPath
+예) 네이버 로그인 버튼 link태그 : //*[@id="account"]/a   
+copyfullXPath -> /html/body/div[2]/div[3]/div[3]/div/div[2]/a
+
+
+
+Requests : HTML의 정보를 가져오기 위해 쓴다
+-> [2_requests.py] 파일 참고
+
+
+
+정규식 re : 형식을 체크할때 정규식을 쓴다
+-> [3_re.py] 파일 참고
+1. p = re.compile("원하는 형태")
+2. m = p.match("비교할 문자열") : 주어진 문자열의 처음부터 일치하는지 확인
+3. m = p.search("비교할 문자열") : 주어진 문자열 중에 일치하는게 있는지 확인
+4. lst = p.findall("비교할 문자열") : 일치하는 모든 것을 '리스트' 형태로 반환
+
+원하는 형태 : 정규식으로 표현
+. (ca.e) : 하나의 문자를 의미 > care, cafe (o) | caffe (x)
+^ (^de)  : 문자열의 시작 > desk, destination (o) | fade (x)
+$ (se$)  : 문자열의 끝 > case, base (o) | section(x)
+
+
+
+웹크롤링(스크래핑)시 403에러가 날 수 있는데, 이를 user agent를 통해 해결할 수 있다.
+user agent
+  웹사이트에 요청하는 소프트웨어/브라우저("에이전트")를 설명하는 텍스트
+  웹 브라우저는 웹사이트에 대한 요청에 User Agent 문자열을 포함한다.
+  User Agent에는 브라우저/에이전트가 실행되는 운영 체제 및 장치 유형에 대한 설명이 포함된다.
+
+1. google > 'user agent string' 검색
+2. what is my user agent? 페이지에서 확인 및 복사
+3. 코드 작성
+headers = {"User-Agent": "복사한 user agent"}
+res = requests.get(url, headers=headers)
