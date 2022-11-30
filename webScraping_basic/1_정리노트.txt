@@ -43,3 +43,28 @@ user agent
 3. 코드 작성
 headers = {"User-Agent": "복사한 user agent"}
 res = requests.get(url, headers=headers)
+
+
+
+BeautifulSoup4
+  HTML과 XML 문서들의 구문을 분석하기 위한 파이썬 패키지다.
+  HTML로부터 데이터를 추출하기 위해 사용할 수 있는 파싱된 페이지의 파스 트리를 만드는데, 
+  이는 웹 스크래핑에 유용하다.
+  [공식 문서] : https://www.crummy.com/software/BeautifulSoup/bs4/doc.ko/
+
+파이썬 패키지 설치
+> py -m pip install beautifulsoup4
+> py -m pip install lxml
+
+
+HTTP : HTTP는 클라이언트와 서버 간에 데이터를 주고(요청) 받는(응답) 프로토콜
+http method 중 대표적인 2가지 : GET, POST
+
+GET과 POST 차이
+- GET은 지정된 리소스에서 데이터를 요청하는 데 사용
+  쿼리 문자열(이름/값 쌍)은 GET 요청의 URL로 전송
+  길이 제한이 있고 민감한 데이터를 처리할 때 사용해서는 안 된다.
+- POST는 리소스를 생성/업데이트하기 위해 서버에 데이터를 보내는 데 사용
+  브라우저 기록에 남아 있지 않고 데이터 길이에 대한 제한이 없다.
+
+쿠팡은 GET 방식 이용
