@@ -2,7 +2,11 @@
 웹 스크래핑은 데이터 추출을 하려는 대상이 명확하여 특정 웹 사이트만 추적한다.
 즉, 웹 크롤링은 기존의 복사본을 만들고, 웹 스크래핑은 분석을 위한 특정 데이터를 추출하거나 새로운 것을 만든다.
 
+크롤링 가이드 라인 확인하는법 (안될 수도 있음!)
+  사이트 주소뒤에 /robots.txt 붙이고 엔터  ex) youtube.com/robots.txt
+  Disallow는 해당 경로에대한 크롤링을 허용하지 않는다는 의미
 
+=============================================================================
 
 XPath (XML Path Language) :XML 문서의 어떤 경로에 접근하기 위해 사용된다. 
 XML상에서 특정 부분이 어떤 요소와 속성을 포함하고 있고 그 위치가 어떻게 되는지 파악할 때 주로 사용한다.
@@ -11,12 +15,12 @@ F12 -> 가져오고싶은 태그 코드 우클릭 -> copy -> copyXPath
 예) 네이버 로그인 버튼 link태그 : //*[@id="account"]/a   
 copyfullXPath -> /html/body/div[2]/div[3]/div[3]/div/div[2]/a
 
-
+=============================================================================
 
 Requests : HTML의 정보를 가져오기 위해 쓴다
 -> [2_requests.py] 파일 참고
 
-
+=============================================================================
 
 정규식 re : 형식을 체크할때 정규식을 쓴다
 -> [3_re.py] 파일 참고
@@ -30,7 +34,7 @@ Requests : HTML의 정보를 가져오기 위해 쓴다
 ^ (^de)  : 문자열의 시작 > desk, destination (o) | fade (x)
 $ (se$)  : 문자열의 끝 > case, base (o) | section(x)
 
-
+=============================================================================
 
 웹크롤링(스크래핑)시 403에러가 날 수 있는데, 이를 user agent를 통해 해결할 수 있다.
 user agent
@@ -44,7 +48,11 @@ user agent
 headers = {"User-Agent": "복사한 user agent"}
 res = requests.get(url, headers=headers)
 
-
+If, 한국어를 지원하지만 한국어로 안뜨는 사이트라면
+headers = {
+  "User-Agent": "복사한 user agent",
+  "Accept-Language":"ko-KR,ko"}
+=============================================================================
 
 BeautifulSoup4
   HTML과 XML 문서들의 구문을 분석하기 위한 파이썬 패키지다.
@@ -56,7 +64,7 @@ BeautifulSoup4
 > py -m pip install beautifulsoup4
 > py -m pip install lxml
 
-
+-----------------------------------------------------------------------------
 HTTP : HTTP는 클라이언트와 서버 간에 데이터를 주고(요청) 받는(응답) 프로토콜
 http method 중 대표적인 2가지 : GET, POST
 
@@ -68,3 +76,61 @@ GET과 POST 차이
   브라우저 기록에 남아 있지 않고 데이터 길이에 대한 제한이 없다.
 
 쿠팡은 GET 방식 이용
+
+=============================================================================
+
+selenium
+웹페이지 테스트 자동화 프레임워크
+웹 브라우저를 컨트롤하여 자동화를 구현할 수 있는 기능
+
+파이썬 패키지 설치
+> py -m pip install selenium
+
+웹드라이브 설치 방법 2가지 (크롬기준)
+1. 수동으로 다운로드
+크롬 버전 확인 > 주소창에 chrome://version/ 또는 메뉴 > 도움말 > 크롬정보
+chromedriver 검색 > https://chromedriver.chromium.org/downloads 접속
+버전에 맞는(!중요) 크롬드라이버를 선택하여 운영체제에 맞게 다운로드
+다운로드된 압축폴더를 압축해제할 공간(파일)으로 옮겨서 압축풀기
+압축해제 후 chromedriver.exe 파일인지 확인
+
+2. 자동으로 다운로드 (아래 코드 추가)
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+service = Service(executable_path=ChromeDriverManager().install())
+browser = webdriver.Chrome(service=service, options=options)
+또는
+browser = webdriver.Chrome(service=Service(
+    ChromeDriverManager().install()), options=options)
+
+**1번 방법으로 했지만 실행할때마다 창이 바로 꺼지는 현상이 반복되어서 2번 방법 선택**
++ 창이 안꺼지도록 아래코드도 추가
+options = webdriver.ChromeOptions()
+options.add_experimental_option("detach", True) # 브라우저 꺼짐 방지
+options.add_experimental_option("excludeSwitches", ["enable-logging"])  # 불필요한 에러 메세지 삭제
+
+-----------------------------------------------------------------------------
+요소 찾기(https://selenium-python.readthedocs.io/locating-elements.html)
+from selenium.webdriver.common.by import By
+
+find_element(By.ID, "id")
+find_element(By.NAME, "name")
+find_element(By.XPATH, "xpath")
+find_element(By.LINK_TEXT, "link text")
+find_element(By.PARTIAL_LINK_TEXT, "partial link text")
+find_element(By.TAG_NAME, "tag name")
+find_element(By.CLASS_NAME, "class name")
+find_element(By.CSS_SELECTOR, "css selector")
+
+-----------------------------------------------------------------------------
+Enter/Return 키 입력
+from selenium.webdriver.common.keys import Keys
+sendKeys 메서드를 사용하고 Keys.ENTER(mac은 Keys.RETRUN)를 메서드의 인수로 전달
+search.send_keys("예시")
+search.send_keys(Keys.ENTER)
+
+-----------------------------------------------------------------------------
+현재 탭 닫기 -> browser.close()
+전체 브라우저 종료 -> browser.quit()
+브라우저 최대창으로 키우기 -> browser.maximize_window()
