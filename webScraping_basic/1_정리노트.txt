@@ -6,6 +6,9 @@
   사이트 주소뒤에 /robots.txt 붙이고 엔터  ex) youtube.com/robots.txt
   Disallow는 해당 경로에대한 크롤링을 허용하지 않는다는 의미
 
+크롤링은 막 쓰면 안된다.
+  계정/IP가 차단될 수 있고, 데이터 무단 활용시 법적 제재가 있을 수 있다.
+
 =============================================================================
 
 XPath (XML Path Language) :XML 문서의 어떤 경로에 접근하기 위해 사용된다. 
@@ -17,8 +20,10 @@ copyfullXPath -> /html/body/div[2]/div[3]/div[3]/div/div[2]/a
 
 =============================================================================
 
-Requests : HTML의 정보를 가져오기 위해 쓴다
+Requests : 주어진 url을 통해 받아온 HTML에 원하는 정보를 가져오기 위해 쓴다
 -> [2_requests.py] 파일 참고
+
+res.raise_for_status() 를 통해 접속에 문제 없는지 확인
 
 =============================================================================
 
@@ -77,6 +82,26 @@ GET과 POST 차이
 
 쿠팡은 GET 방식 이용
 
+-----------------------------------------------------------------------------
+find     : 조건에 맞는 첫 번째 element
+find_all : 조건에 맞는 모든 element 리스트로
+find_next_sibling(s)      : 다음 형제 찾기
+find_previous_sibling(s)  : 이전 형제 찾기
+
+soup["속성명"]  : 속성
+soup.get_text() : 텍스트
+
+-----------------------------------------------------------------------------
+이미지 다운로드
+with open("파일명", "wb") as f:
+    f.write(res.content)
+
+=============================================================================
+
+csv 파일 만들기 
+import csv
+f=open(filname,"w",encoding="utf-8-sig",newline="")
+
 =============================================================================
 
 selenium
@@ -134,3 +159,22 @@ search.send_keys(Keys.ENTER)
 현재 탭 닫기 -> browser.close()
 전체 브라우저 종료 -> browser.quit()
 브라우저 최대창으로 키우기 -> browser.maximize_window()
+
+-----------------------------------------------------------------------------
+로딩 있을때 WebDriverWait(browser, 시간초).until(EC.presence_of_element_located((By.형식, "")))
+def wait_util(xpath_str):
+    WebDriverWait(browser, 30).until(EC.presence_of_element_located((By.XPATH, xpath_str)))
+
+-----------------------------------------------------------------------------
+headless 크롬
+selenium을 이용할때 매번 창을 띄우고 움직임을 확인하였는데, 속도 저하문제 발생 가능성 있음
+화면 볼 필요가 없거나 서버에서 웹 스크래핑 작업을 한다면 브라우저를 띄울 필요 없다면 headless 사용
+headless 크롬은 크롬을 띄우지 않고 크롬을 쓸 수 있다. (즉, 백그라운드에서 실행)
+매번 빠른 속도로 브라우저를 띄우지 않고 똑같은 작업을 할 수 있다.
+때로는 user-agent 정의가 필요하다
+
+options = webdriver.ChromeOptions()
+options.headless = True
+options.add_argument("window-size=1920x1080")
+
+browser=webdriver.Chrome(options=options)
