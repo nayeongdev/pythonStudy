@@ -1,5 +1,5 @@
-# 나도 코딩 파이썬 강의
-## python_tutorial (파이썬 기본편)
+# 파이썬 강의
+## 나도 코딩 - python_tutorial (파이썬 기본편)
 ### pratice1
 - 자료형
 - 연산자
@@ -20,7 +20,17 @@
   + travel : 패키지
   + byme.py : 퀴즈 10
 
-## web_scraping (웹 스크랩핑)
+## 코드잇 - 파이썬 기본 실습
+- vocabulary : txt 파일로 사전 만들기
+- voca_test : 단어 테스트
+- lottery : 로또 추첨기
+- guessing_number : 숫자 맞추기 게임
+- baseball : 숫자야구 게임
+
+## toy
+직접 작성한 파이썬 코드, 간단하게 작성
+
+## 나도 코딩 - web_scraping (웹 스크랩핑)
 1. 관련 개념 정리
 2. requests 실습
 3. 정규식 실습
