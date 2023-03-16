@@ -27,7 +27,8 @@
 - guessing_number : 숫자 맞추기 게임
 - baseball : 숫자야구 게임
 - follow : 팔로우 기능
-
+- blog : 블로그 post
+- clock : 시간 설정하기
 ## toy
 직접 작성한 파이썬 코드, 간단하게 작성
 
